@@ -11,10 +11,10 @@ class SharedPtr {
   SharedPtr() = default;
   explicit SharedPtr(T* ptr);
   SharedPtr(const SharedPtr& r);
-  SharedPtr(SharedPtr&& r) noexcept;
+  SharedPtr(SharedPtr&& r);
   ~SharedPtr();
   auto operator=(const SharedPtr& r) -> SharedPtr&;
-  auto operator=(SharedPtr&& r) noexcept -> SharedPtr&;
+  auto operator=(SharedPtr&& r) -> SharedPtr&;
 
   explicit operator bool() const;
   auto operator*() const -> T&;
@@ -46,7 +46,7 @@ SharedPtr<T>::SharedPtr(const SharedPtr& r) {
 }
 
 template <typename T>
-SharedPtr<T>::SharedPtr(SharedPtr&& r) noexcept {
+SharedPtr<T>::SharedPtr(SharedPtr&& r) {
   pointer = r.pointer;
   r.pointer = nullptr;
   counter = r.counter;
@@ -66,7 +66,7 @@ auto SharedPtr<T>::operator=(const SharedPtr& r) -> SharedPtr& {
 }
 
 template <typename T>
-auto SharedPtr<T>::operator=(SharedPtr&& r) noexcept -> SharedPtr& {
+auto SharedPtr<T>::operator=(SharedPtr&& r) -> SharedPtr& {
   if (&r != this) {
     this->~SharedPtr();
     pointer = r.pointer;
