@@ -3,14 +3,15 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include "SharedPtr.hpp"
+const int myNum = 5;
 TEST(Example, EmptyTest) { EXPECT_TRUE(true); }
 
 TEST(SharedPtr, constructorFromPointer) {
-  SharedPtr<int> i{new int{5}};
-  ASSERT_EQ(*i, 5);
+  SharedPtr<int> i{new int{myNum}};
+  ASSERT_EQ(*i, myNum);
 }
 TEST(SharedPtr, constructorFromSelf) {
-  SharedPtr<int> i{new int{5}};
+  SharedPtr<int> i{new int{myNum}};
   SharedPtr<int> j(i);
   ASSERT_EQ(i.get(), j.get());
   SharedPtr<int> k(std::move(i));
@@ -21,25 +22,25 @@ TEST(SharedPtr, defaultConstructor) {
   EXPECT_FALSE(bool(i));
 }
 TEST(SharedPtr, movingOperatorEq) {
-  SharedPtr<int> i{new int{5}};
+  SharedPtr<int> i{new int{myNum}};
   SharedPtr<int> j = std::move(i);
-  ASSERT_EQ(*j, 5);
+  ASSERT_EQ(*j, myNum);
 }
 TEST(SharedPtr, copyingOperatorEq) {
-  SharedPtr<int> i{new int{5}};
+  SharedPtr<int> i{new int{myNum}};
   SharedPtr<int> j = i;
   ASSERT_EQ(i.get(), j.get());
 }
 TEST(SharedPtr, reseting) {
-  SharedPtr<int> i{new int{5}};
+  SharedPtr<int> i{new int{myNum}};
   i.reset();
   ASSERT_EQ(i.get(), nullptr);
-  int *a = new int{5};
+  int *a = new int{myNum};
   i.reset(a);
   ASSERT_EQ(i.get(), a);
 }
 TEST(SharedPtr, countinf) {
-  SharedPtr<int> i{new int{5}};
+  SharedPtr<int> i{new int{myNum}};
   SharedPtr<int> j(i);
   SharedPtr<int> k = i;
   ASSERT_EQ(i.use_count(), 3);
@@ -49,7 +50,7 @@ TEST(SharedPtr, countinf) {
   ASSERT_EQ(i.use_count(), 0);
 }
 TEST(SharedPtr, swapping) {
-  int *a = new int{5};
+  int *a = new int{myNum};
   SharedPtr<int> i(a);
   int *b = new int{7};
   SharedPtr<int> j(b);
