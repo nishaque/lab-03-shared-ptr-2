@@ -1,12 +1,8 @@
 // Copyright 2020 Yulia Timoshenko <timoshenkojulie01@gmail.com>
 
 #include <gtest/gtest.h>
-
-#include <iostream>
 #include <memory>
-
 #include "SharedPtr.hpp"
-
 TEST(Example, EmptyTest) { EXPECT_TRUE(true); }
 
 TEST(SharedPtr, constructorFromPointer) {
@@ -64,4 +60,14 @@ TEST(SharedPtr, swapping) {
 TEST(SharedPtr, operatorArrow) {
   SharedPtr<std::pair<int, int>> a{new std::pair<int, int>{1, 2}};
   ASSERT_EQ(a->first, 1);
+}
+TEST(Shared_Ptr, IsMoveConstructable) {
+  EXPECT_TRUE(std::is_move_constructible<SharedPtr<int>>());
+  EXPECT_TRUE(std::is_move_constructible<SharedPtr<std::string>>());
+  EXPECT_TRUE(std::is_move_constructible<SharedPtr<double>>());
+}
+TEST(Shared_Ptr, IsMoveAssygnable) {
+  EXPECT_TRUE(std::is_move_assignable<SharedPtr<int>>());
+  EXPECT_TRUE(std::is_move_assignable<SharedPtr<std::string>>());
+  EXPECT_TRUE(std::is_move_assignable<SharedPtr<double>>());
 }
